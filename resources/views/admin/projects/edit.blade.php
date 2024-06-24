@@ -12,6 +12,15 @@
       <label for="name" class="form-label">Modifica il nome</label>
       <input type="text" class="form-control" id="name" placeholder="laraverl controller" name="name" value="{{old('name', $project->name)}}">
     </div>
+    <div>
+      <label for="type_id"></label>
+      <select id="type_id" class="form-select" aria-label="Default select example" name="type_id">
+        <option selected>Selecte</option>
+        @foreach ($types as $type)
+          <option @selected($project->type?->name === $type->name) value="{{$type->id}}">{{$type->name}}</option>
+        @endforeach
+      </select>
+    </div>
     <div class="mb-3">
       <label for="description" class="form-label">Modifica la descrizione</label>
       <textarea class="form-control" id="description" rows="3" name="description">{{old('description', $project->description)}}</textarea>

@@ -6,6 +6,20 @@
       <h1>Project</h1>
       <a href="{{route('admin.projects.create')}}" class="btn btn-primary">Created</a>
     </div>
+    <div>
+      <form action="{{route('admin.projects.index')}}" method="GET">
+        @csrf
+        <label for="per_page">Pagination</label>
+        <select class="" aria-label="Default select example" name="per_page">
+          {{-- <option>Select pagination</option> --}}
+          <option @selected($projects->perPage() === '5') value="5">5</option>
+          <option @selected($projects->perPage() === '10') value="10">10</option>
+          <option @selected($projects->perPage() === '15') value="15">15</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Applica</button>
+      </form>
+    </div>
 
     <table class="table">
       <thead>
@@ -23,7 +37,7 @@
           <tr>
             <th scope="row">{{$project->id}}</th>
             <td>{{$project->name}}</td>
-            <td>{{$project->type->name}}</td>
+            <td>{{$project->type?->name}}</td>
             <td>{{$project->description}}</td>
             <td>{{$project->programming_languages}}</td>
             <td>
@@ -41,6 +55,10 @@
 
       </tbody>
     </table>
+
+    <div>
+      {{$projects->appends(['per_page'=> $projects->perPage()])->links()}}
+    </div>
   </div>
 
 

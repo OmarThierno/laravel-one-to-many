@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProjectCtroller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::all();
-        // dd($projects);
+        $perPage = $request->per_page ? $request->per_page : 10;
+        // $projects = Project::all();
+        $projects = Project::paginate($perPage);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -55,11 +58,12 @@ class ProjectCtroller extends Controller
      */
     public function edit(string $slug)
     {
+        $types = Type::all();
         $project = Project::where('slug', $slug)->first();
         if(!$project) {
             abort(404);
         }
-        return view('admin.projects.edit', compact('project'));
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -69,6 +73,7 @@ class ProjectCtroller extends Controller
     {
         // dd($request->all());
         $data = $request->all();
+        $data['slug'] = Str::slug($data['name']);
         $project->update($data);
         return redirect()->route('admin.projects.show', ['project'=> $project->slug]);
     }
