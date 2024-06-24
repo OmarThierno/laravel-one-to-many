@@ -12,6 +12,7 @@
         <tr>
           <th scope="col">id</th>
           <th scope="col">name</th>
+          <th scope="col">Type</th>
           <th scope="col">description</th>
           <th scope="col">programming_languages</th>
           <th scope="col">Action</th>
@@ -22,6 +23,7 @@
           <tr>
             <th scope="row">{{$project->id}}</th>
             <td>{{$project->name}}</td>
+            <td>{{$project->type->name}}</td>
             <td>{{$project->description}}</td>
             <td>{{$project->programming_languages}}</td>
             <td>
